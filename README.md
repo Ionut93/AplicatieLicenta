@@ -1,1 +1,2 @@
 # AplicatieLicenta
+Aplicatie Android.
