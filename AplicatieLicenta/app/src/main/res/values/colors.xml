@@ -4,4 +4,7 @@
     <color name="primaryColorDark">#5D4037</color>
     <color name="accentColor">#9B1D20</color>
     <color name="iconColor">#731A33</color>
+    <color name="room1">#693118</color>
+    <color name="room2">#0f46e1</color>
+    <color name="room3">#f29e1c</color>
 </resources>

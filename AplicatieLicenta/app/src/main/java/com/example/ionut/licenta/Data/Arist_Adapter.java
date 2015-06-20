@@ -65,7 +65,6 @@ public class Arist_Adapter extends BaseAdapter {
         NetworkImageView niv = (NetworkImageView) convertView.findViewById(R.id.NIV_artist);
         tv.setText(itemsArrayList.get(position).getDescriere());
         niv.setImageUrl(itemsArrayList.get(position).getUrl(), imageLoader);
-        tv.setMovementMethod(new ScrollingMovementMethod());
         return convertView;
     }
 }

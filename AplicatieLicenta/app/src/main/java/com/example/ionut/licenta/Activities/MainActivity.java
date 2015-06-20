@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 
 import com.example.ionut.licenta.R;
@@ -24,6 +26,7 @@ public class MainActivity extends Activity {
     private LoginButton fb_button;
     private Context context;
     private UiLifecycleHelper uiHelper;
+    private Button button;
     private Session.StatusCallback callback = new Session.StatusCallback() {
 
         @Override
@@ -35,6 +38,7 @@ public class MainActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         uiHelper = new UiLifecycleHelper(this, callback);
@@ -42,6 +46,15 @@ public class MainActivity extends Activity {
         context = this;
         fb_button = (LoginButton) findViewById(R.id.fb_login_button);
         fb_button.setReadPermissions("email","basic_info");
+        button = (Button) findViewById(R.id.button);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, MenuActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
       /*  fb_button.setSessionStatusCallback(new Session.StatusCallback() {
             @Override
             public void call(Session session, SessionState state, Exception exception) {
@@ -65,6 +78,7 @@ public class MainActivity extends Activity {
             startActivity(intent);
             finish();
         }
+
     }
 
     @Override

@@ -2,6 +2,8 @@ package com.example.ionut.licenta.Activities;
 
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,11 +16,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
-
 
 import com.example.ionut.licenta.Data.ProfilePictureView;
 import com.example.ionut.licenta.Fragments.ArtistsFragment;
+import com.example.ionut.licenta.Fragments.MenuFragment;
 import com.example.ionut.licenta.Fragments.MuseumFragment;
 import com.example.ionut.licenta.Fragments.NavigationDrawerFragment;
 import com.example.ionut.licenta.Fragments.SettingsFragment;
@@ -39,6 +40,7 @@ public class MenuActivity extends ActionBarActivity implements OnFragmentInterac
     private Toolbar toolbar;
     private NavigationDrawerFragment drawerFragment;
     private ListView lv;
+    public static boolean firstLaunch = false;
 
 
     private UiLifecycleHelper uiHelper = new UiLifecycleHelper(this, new Session.StatusCallback() {
@@ -59,7 +61,7 @@ public class MenuActivity extends ActionBarActivity implements OnFragmentInterac
         setContentView(R.layout.activity_menu);
         uiHelper.onCreate(savedInstanceState);
         toolbar = (Toolbar) findViewById(R.id.app_bar);
-      //  Intent i = getIntent();
+        //  Intent i = getIntent();
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
@@ -67,16 +69,16 @@ public class MenuActivity extends ActionBarActivity implements OnFragmentInterac
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer_fragment);
         drawerFragment.setUp(R.id.navigation_drawer_fragment, (DrawerLayout) findViewById(R.id.drawer_layout), toolbar);
 
-     //   user_id = i.getStringExtra("user_id");
-        final ProfilePictureView profilePictureView = (ProfilePictureView)drawerFragment.getView().findViewById(R.id.profile_picture);
+        //   user_id = i.getStringExtra("user_id");
+        final ProfilePictureView profilePictureView = (ProfilePictureView) drawerFragment.getView().findViewById(R.id.profile_picture);
 
         final Session session = Session.getActiveSession();
-        if(session != null && session.isOpened()) {
-            Request request = Request.newMeRequest(session , new Request.GraphUserCallback() {
+        if (session != null && session.isOpened()) {
+            Request request = Request.newMeRequest(session, new Request.GraphUserCallback() {
                 @Override
                 public void onCompleted(GraphUser user, Response response) {
-                    if(session == Session.getActiveSession()) {
-                        if(user != null) {
+                    if (session == Session.getActiveSession()) {
+                        if (user != null) {
                             user_id = user.getId();
                             profilePictureView.setProfileId(user_id);
                         }
@@ -84,11 +86,21 @@ public class MenuActivity extends ActionBarActivity implements OnFragmentInterac
                 }
             });
             Request.executeBatchAsync(request);
+        } else {
+            Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.face);
+            profilePictureView.setDefaultProfilePicture(bm);
         }
 
 
-
         lv = (ListView) drawerFragment.getView().findViewById(R.id.menu_list_view);
+
+        if (!firstLaunch) {
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            Fragment menuFragment = new MenuFragment();
+            fragmentTransaction.replace(R.id.frame_layout, menuFragment);
+            drawerFragment.getmDrawerLayout().closeDrawers();
+            fragmentTransaction.commit();
+        }
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -109,21 +121,22 @@ public class MenuActivity extends ActionBarActivity implements OnFragmentInterac
                         fragmentTransaction.replace(R.id.frame_layout, settingsFragment);
                         drawerFragment.getmDrawerLayout().closeDrawers();
                         break;
-                    case 3:
-                        Toast.makeText(getApplication(), "3", Toast.LENGTH_LONG).show();
-                        drawerFragment.getmDrawerLayout().closeDrawers();
-                        break;
                     case 4:
-                        Session.getActiveSession().closeAndClearTokenInformation();
-                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                        finish();
+                        Fragment menuFragment = new MenuFragment();
+                        fragmentTransaction.replace(R.id.frame_layout, menuFragment);
+                        drawerFragment.getmDrawerLayout().closeDrawers();
                         break;
                 }
                 fragmentTransaction.commit();
+                if (position == 6) {
+                    if (session != null && session.isOpened())
+                        Session.getActiveSession().closeAndClearTokenInformation();
+                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                    finish();
+                }
 
             }
         });
-
 
 
     }
@@ -184,4 +197,6 @@ public class MenuActivity extends ActionBarActivity implements OnFragmentInterac
     public void onFragmentInteraction(Uri uri) {
 
     }
+
+
 }

@@ -2,6 +2,7 @@ package com.example.ionut.licenta.Fragments;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -11,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.android.volley.Request;
@@ -18,6 +20,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.example.ionut.licenta.Activities.ArtistViewActivity;
 import com.example.ionut.licenta.AppController;
 import com.example.ionut.licenta.Data.Arist_Adapter;
 import com.example.ionut.licenta.Data.Artist;
@@ -94,16 +97,16 @@ public class ArtistsFragment extends Fragment implements OnFragmentInteractionLi
         lv = (ListView) v.findViewById(R.id.listView_artists);
         adapter = new Arist_Adapter(artists,getActivity());
         lv.setAdapter(adapter);
-      /*  lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Bitmap image = getBitmapFromURL(artists.get(position).getUrl());
-                SharePhoto photo = new SharePhoto.Builder().setBitmap(image)
-                        .setCaption(artists.get(position).getNume()).build();
-                SharePhotoContent content = new SharePhotoContent.Builder().addPhoto(photo).build();
-                ShareApi.share(content,null);
+                Intent i = new Intent(getActivity(), ArtistViewActivity.class);
+                i.putExtra("artist_src",artists.get(position).getUrl());
+                i.putExtra("artist_description",artists.get(position).getDescriere());
+                i.putExtra("artist_name",artists.get(position).getNume());
+                startActivity(i);
             }
-        });*/
+        });
         return  v;
     }
 
