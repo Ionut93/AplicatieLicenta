@@ -1,4 +1,4 @@
-package com.example.ionut.licenta.Data;
+package com.example.ionut.licenta.Adapters;
 
 import android.app.Activity;
 import android.content.Context;
@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.example.ionut.licenta.AppController;
+import com.example.ionut.licenta.Classes.Museum;
 import com.example.ionut.licenta.R;
 
 

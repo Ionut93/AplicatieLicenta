@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -22,8 +21,8 @@ import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.ionut.licenta.Activities.ArtistViewActivity;
 import com.example.ionut.licenta.AppController;
-import com.example.ionut.licenta.Data.Arist_Adapter;
-import com.example.ionut.licenta.Data.Artist;
+import com.example.ionut.licenta.Adapters.Arist_Adapter;
+import com.example.ionut.licenta.Classes.Artist;
 import com.example.ionut.licenta.OnFragmentInteractionListener;
 import com.example.ionut.licenta.R;
 
@@ -32,10 +31,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 
 
@@ -213,18 +208,5 @@ public class ArtistsFragment extends Fragment implements OnFragmentInteractionLi
 
     }
 
-    public static Bitmap getBitmapFromURL(String src) {
-        try {
-            URL url = new URL(src);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setDoInput(true);
-            connection.connect();
-            InputStream input = connection.getInputStream();
-            Bitmap myBitmap = BitmapFactory.decodeStream(input);
-            return myBitmap;
-        } catch (IOException e) {
-            // Log exception
-            return null;
-        }
-    }
+
 }

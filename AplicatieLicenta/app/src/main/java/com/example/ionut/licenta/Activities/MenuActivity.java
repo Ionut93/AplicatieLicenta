@@ -2,6 +2,7 @@ package com.example.ionut.licenta.Activities;
 
 
 import android.content.Intent;
+
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -16,13 +17,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import com.example.ionut.licenta.Classes.Pictura;
 import com.example.ionut.licenta.Data.ProfilePictureView;
+
 import com.example.ionut.licenta.Fragments.ArtistsFragment;
+
+import com.example.ionut.licenta.Fragments.GalleryFragment;
 import com.example.ionut.licenta.Fragments.MenuFragment;
 import com.example.ionut.licenta.Fragments.MuseumFragment;
 import com.example.ionut.licenta.Fragments.NavigationDrawerFragment;
-import com.example.ionut.licenta.Fragments.SettingsFragment;
 import com.example.ionut.licenta.OnFragmentInteractionListener;
 import com.example.ionut.licenta.R;
 import com.facebook.Request;
@@ -32,15 +37,20 @@ import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
 import com.facebook.model.GraphUser;
 
+import java.util.ArrayList;
+
 
 public class MenuActivity extends ActionBarActivity implements OnFragmentInteractionListener {
 
 
-    private String user_id;
+    public static String user_id;
     private Toolbar toolbar;
     private NavigationDrawerFragment drawerFragment;
     private ListView lv;
-    public static boolean firstLaunch = false;
+    public static boolean firstLaunch = true;
+    public static ArrayList<Pictura> picturi = new ArrayList<>();
+
+
 
 
     private UiLifecycleHelper uiHelper = new UiLifecycleHelper(this, new Session.StatusCallback() {
@@ -61,7 +71,7 @@ public class MenuActivity extends ActionBarActivity implements OnFragmentInterac
         setContentView(R.layout.activity_menu);
         uiHelper.onCreate(savedInstanceState);
         toolbar = (Toolbar) findViewById(R.id.app_bar);
-        //  Intent i = getIntent();
+
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
@@ -94,7 +104,8 @@ public class MenuActivity extends ActionBarActivity implements OnFragmentInterac
 
         lv = (ListView) drawerFragment.getView().findViewById(R.id.menu_list_view);
 
-        if (!firstLaunch) {
+        if (firstLaunch) {
+            firstLaunch = false;
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             Fragment menuFragment = new MenuFragment();
             fragmentTransaction.replace(R.id.frame_layout, menuFragment);
@@ -117,15 +128,17 @@ public class MenuActivity extends ActionBarActivity implements OnFragmentInterac
                         drawerFragment.getmDrawerLayout().closeDrawers();
                         break;
                     case 2:
-                        Fragment settingsFragment = new SettingsFragment();
-                        fragmentTransaction.replace(R.id.frame_layout, settingsFragment);
+                        Fragment galleryFragment = new GalleryFragment();
+                        fragmentTransaction.replace(R.id.frame_layout, galleryFragment);
                         drawerFragment.getmDrawerLayout().closeDrawers();
                         break;
-                    case 4:
+                    case 3:
                         Fragment menuFragment = new MenuFragment();
                         fragmentTransaction.replace(R.id.frame_layout, menuFragment);
                         drawerFragment.getmDrawerLayout().closeDrawers();
                         break;
+
+
                 }
                 fragmentTransaction.commit();
                 if (position == 6) {
@@ -145,6 +158,7 @@ public class MenuActivity extends ActionBarActivity implements OnFragmentInterac
     protected void onDestroy() {
         super.onDestroy();
         uiHelper.onDestroy();
+
     }
 
     @Override

@@ -30,16 +30,6 @@ public class NavigationDrawerFragment extends Fragment implements OnFragmentInte
 
     private OnFragmentInteractionListener mListener;
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment NavigationDrawerFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-
 
     private ActionBarDrawerToggle mDrawerToggle;
 
@@ -76,7 +66,8 @@ public class NavigationDrawerFragment extends Fragment implements OnFragmentInte
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mUserLearnedDrawer = Boolean.valueOf(gettPref(getActivity(), M_USER_LEARNED_DRAWER_VALUE, "false"));
+        mUserLearnedDrawer = Boolean.valueOf(gettPref(getActivity(),
+                M_USER_LEARNED_DRAWER_VALUE, "false"));
         if (savedInstanceState != null)
             mFromSavedInstanceState = true;
 
@@ -89,7 +80,9 @@ public class NavigationDrawerFragment extends Fragment implements OnFragmentInte
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
         listView = (ListView) v.findViewById(R.id.menu_list_view);
-        listView.setAdapter(new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.Menu)));
+        listView.setAdapter(new ArrayAdapter<String>(getActivity(),
+                android.R.layout.simple_list_item_1,
+                getResources().getStringArray(R.array.Menu)));
         return v;
     }
 

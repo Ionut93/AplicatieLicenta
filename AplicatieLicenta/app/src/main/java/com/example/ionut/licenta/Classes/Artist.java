@@ -1,4 +1,4 @@
-package com.example.ionut.licenta.Data;
+package com.example.ionut.licenta.Classes;
 
 /**
  * Created by Ionut on 6/18/2015.

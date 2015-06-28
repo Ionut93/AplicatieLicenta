@@ -13,6 +13,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.example.ionut.licenta.Data.MyReceiver;
 import com.example.ionut.licenta.R;
 
 
@@ -26,9 +27,7 @@ public class WebView_Activity extends ActionBarActivity {
         Intent i = getIntent();
         webView = (WebView) findViewById(R.id.webView);
         String url = i.getStringExtra("web_site");
-        //webView.setWebChromeClient(new WebChromeClient());
         webView.setWebViewClient(new MyBrowser());
-       // webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setLoadsImagesAutomatically(true);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
@@ -37,9 +36,6 @@ public class WebView_Activity extends ActionBarActivity {
 
 
     private class MyBrowser extends WebViewClient {
-
-
-
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
             view.loadUrl(url);
@@ -68,5 +64,11 @@ public class WebView_Activity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
     }
 }

@@ -18,6 +18,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.example.ionut.licenta.AppController;
 import com.example.ionut.licenta.Data.CustomNetworkImageView;
+import com.example.ionut.licenta.Data.MyReceiver;
 import com.example.ionut.licenta.R;
 import com.facebook.LoginActivity;
 import com.facebook.Request;
@@ -47,7 +48,6 @@ public class ArtistViewActivity extends ActionBarActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_artist_view);
-        context = this;
         networkImageView = (CustomNetworkImageView) findViewById(R.id.view);
         tv_descripition = (TextView) findViewById(R.id.textView_artist);
         button = (ImageButton) findViewById(R.id.imageButton_share);
@@ -77,11 +77,6 @@ public class ArtistViewActivity extends ActionBarActivity {
                 Session s = Session.getActiveSession();
                 if (s != null && s.isOpened())
                     postImage();
-                else {
-                    Intent i = new Intent("facebook.LAUNCH");
-                    startActivity(i);
-
-                }
             }
         });
 
@@ -159,5 +154,11 @@ public class ArtistViewActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
     }
 }
